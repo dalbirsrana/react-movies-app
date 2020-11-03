@@ -1,10 +1,7 @@
 import React from 'react'
 import './App.css';
 
-import SearchForm from './components/Form'
-// import TabsSection from './containers/TabsContainer'
-
-import MoviesSection from './containers/MoviesContainer'
+import Tabs from './containers/TabsContainer'
 
 function App() {
   return (
@@ -12,8 +9,7 @@ function App() {
       <header className='App-header'>
         <h1>React Movies App</h1>
       </header>
-      <SearchForm />
-      <MoviesSection />
+      <Tabs />
     </div>
   );
 }
