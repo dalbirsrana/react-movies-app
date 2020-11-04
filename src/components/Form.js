@@ -21,10 +21,10 @@ const getStyles = makeStyles(theme => ({
   },
   textField: {
     marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(2)
   },
   dropdown: {
-    minWidth: 100
+    minWidth: 120
   }
 }))
 
@@ -40,8 +40,6 @@ const Form = props => {
         margin='normal'
         variant='outlined'
       />
-
-      
       <FormControl variant="outlined" margin="normal" className={classes.dropdown}>
           <InputLabel id="search-category-label">Search Type</InputLabel>
             <Select
@@ -56,7 +54,7 @@ const Form = props => {
             </Select>
         </FormControl>
 
-      <Button variant='outlined' className={classes.button} type='submit'>
+      <Button variant='contained' color="primary" className={classes.button} type='submit'>
         Search
       </Button>
 

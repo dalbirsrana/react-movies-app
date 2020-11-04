@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 import { getSearch } from '../services/api'
@@ -26,7 +25,7 @@ function TabPanel(props) {
         >
         {value === index && (
             <Box p={3}>
-                <Typography>{children}</Typography>
+                {children}
             </Box>
         )}
         </div>
@@ -46,7 +45,6 @@ function a11yProps(index) {
     };
 }
 
-
 export default class FullWidthTabs extends Component {
 
     state = {
@@ -56,8 +54,8 @@ export default class FullWidthTabs extends Component {
         shows: {},
         currentPage: 1,
         totalPages: 1,
-        category: 'multi',
-        query: '',
+        category: "multi",
+        query: "",
         msg: 'Please enter a search'
     }
 
@@ -66,19 +64,6 @@ export default class FullWidthTabs extends Component {
             value: newValue
         })
     }
-
-    
-    setSearch(cat, query, page=1) {
-        getSearch( cat, query, page ).then(List => {
-            this.setState({
-                isLoading: false,
-                shows: List.results,
-                currentPage: List.page,
-                totalPages: List.total_pages
-            })
-        })
-    }
-
     
     fetchShows = (e) => {
         e.preventDefault(); 
@@ -87,15 +72,35 @@ export default class FullWidthTabs extends Component {
             isLoading:true
         })
 
-        this.setSearch(this.state.category, this.state.query)
+        getSearch(this.state.category, this.state.query, this.state.currentPage).then(List => {
+            this.setState({
+                isLoading: false,
+                shows: List.results,
+                currentPage: List.page,
+                totalPages: List.total_pages,
+                msg: ""
+            })
 
-        console.log(this.state.shows)
+            if (Object.keys(this.state.shows).length === 0) {
+                this.setState({
+                    msg: "Sorry, there were no results"
+                })
+            }
+        })
     }
 
     handleInputChange = (value) => {
-        this.setState({
-            query: value
-        })
+        if (value !== "") {
+            this.setState({
+                query: value,
+                msg: "Please initiate a search"
+            })
+        } else {
+            this.setState({
+                query: value,
+                msg: "Please enter a search"
+            })
+        }
     }
 
     handleCategoryChange = (value) => {
@@ -111,38 +116,40 @@ export default class FullWidthTabs extends Component {
 
         return (
             <>
-            <Form
-                onSubmit={this.fetchShows}
-                onInputChange={this.handleInputChange}
-                onCategoryChange={this.handleCategoryChange}
-                category={this.category}
-            />
+            <div className="header-form">
+                <Form
+                    onSubmit={this.fetchShows}
+                    onInputChange={this.handleInputChange}
+                    onCategoryChange={this.handleCategoryChange}
+                    category={this.state.category}
+                />
+            </div>
 
-            <div>
-            <AppBar position="static" color="default">
-                <Tabs
-                value={value}
-                onChange={this.handleChange}
-                indicatorColor="primary"
-                textColor="primary"
-                variant="fullWidth"
-                aria-label="full width tabs"
-                >
-                    <Tab label="Movies" {...a11yProps(0)} />
-                    <Tab label="Search" {...a11yProps(1)} />
-                    <Tab label="Tv Shows" {...a11yProps(2)} />
-                </Tabs>
-            </AppBar>
-            
-            <TabPanel value={value} index={0}>
-                <Movies />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-                <Search shows={this.state.shows} />
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-                <TvShows />
-            </TabPanel>
+            <div className="tab-container">
+                <AppBar position="static" color="default">
+                    <Tabs
+                    value={value}
+                    onChange={this.handleChange}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    variant="fullWidth"
+                    aria-label="full width tabs"
+                    >
+                        <Tab label="Movies" {...a11yProps(0)} />
+                        <Tab label="Search Results" {...a11yProps(1)} />
+                        <Tab label="Tv Shows" {...a11yProps(2)} />
+                    </Tabs>
+                </AppBar>
+                
+                <TabPanel value={value} index={0}>
+                    <Movies />
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                    <Search shows={this.state.shows} message={this.state.msg} />
+                </TabPanel>
+                <TabPanel value={value} index={2}>
+                    <TvShows />
+                </TabPanel>
 
         </div>
         </>

@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
 import Loading from '../components/Loading'
 import { getTv } from '../services/api'
-
+import ShowMedia from '../components/ShowMedia'
 
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Pagination from '@material-ui/lab/Pagination';
-
-// import ListMovies from '../components/ListMovies'
-
 
 export default class TvContainer extends Component {
 
@@ -49,17 +46,13 @@ export default class TvContainer extends Component {
             isLoading:true, 
             category: categorySelected 
         })
-
         this.setShow(categorySelected)
     }
 
     onPageChange = (event, page) => {
-        console.log(page)
-
         this.setState({
             currentPage: page
         })
-
         this.setShow(this.state.category, page)
     }
 
@@ -67,9 +60,8 @@ export default class TvContainer extends Component {
 
         let {isLoading, shows, category, currentPage, totalPages } = this.state
 
-
         return (
-            <div id="tvShow-container" className="tab-container">
+            <div id="tvShow-container" className="tab-content">
 
             <FormControl variant="outlined" className="form-control">
                 <InputLabel id="category-label">Category</InputLabel>
@@ -96,35 +88,8 @@ export default class TvContainer extends Component {
                 className="pagination-bar"
             />
 
+            { isLoading ? ( <Loading /> ) : ( <ShowMedia mediaList={shows} /> )}
 
-                <h1>TV Shows</h1>
-
-                { isLoading ? (
-                    <Loading />
-                ) : (
-                    <>
-                    { 
-                        Array.isArray(shows) && shows.map( (show, index) => (
-                            <div key={index} className="show-container">
-                                
-                                <div className="show-poster">
-                                    <img src={"http://image.tmdb.org/t/p/w185" + show.poster_path} alt="poster" />
-                                </div>
-
-                                <div className="show-details">
-                                    <h4>{show.original_name}</h4>
-    
-                                    <div>Release Date: {show.first_air_date} | Popularity: { show.popularity }</div>
-                                    
-                                    <p>{ show.overview }</p>
-                                </div>
-
-                            </div>
-                        )) 
-                    }                        
-                    </>
-                    
-                )}
             </div>
         )
     }

@@ -1,3 +1,6 @@
+* {
+  box-sizing: border-box;
+}
 img {
   max-width: 100%;
   height: auto;
@@ -23,13 +26,32 @@ img {
 
 .tab-container {
   text-align: center;
+  max-width: 1000px;
+  width: 100%;
+  min-height: 60vh;
+  align-self: center;
+  margin-bottom: 4rem;
+  border: 1px solid rgb(143, 142, 142);
 }
 
+.header-form {
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
 
 /* show container  */
 .show-container {
   display: flex;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  border-radius: .5rem;
+  box-shadow: 0px 1px 4px 0px #dddddd;
+}
+
+.show-poster img {
+  display: block;
+  border-top-left-radius: .5rem;
+  border-bottom-left-radius: .5rem;
+  text-align: left;
 }
 
 .show-poster {
