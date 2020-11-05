@@ -2,6 +2,7 @@
   "name": "react-movies-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://dalbirsrana.github.io/react-movies-app/",
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/lab": "^4.0.0-alpha.56",
@@ -15,6 +16,8 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
